@@ -1,0 +1,159 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Whale/4.35.351.16 Safari/537.36" version="29.5.1">
+  <diagram name="페이지-1" id="P4732SE6AxBm5FV4pStB">
+    <mxGraphModel dx="946" dy="578" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-1" parent="1" style="ellipse;fillColor=strokeColor;" value="" vertex="1">
+          <mxGeometry height="14" width="14" x="487" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-2" parent="1" style="rounded=1;arcSize=20;strokeWidth=2" value="System_Off" vertex="1">
+          <mxGeometry height="40" width="97" x="445" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-3" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;startSize=25;container=0;collapsible=0;rounded=1;arcSize=14;dropTarget=0;verticalAlign=top;" value="Normal_Operation(System__On)" vertex="1">
+          <mxGeometry height="685" width="628" x="20" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-4" parent="oX8yY44hTsGk4jQMlpQM-3" style="ellipse;fillColor=strokeColor;" value="" vertex="1">
+          <mxGeometry height="14" width="14" x="361" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-5" parent="oX8yY44hTsGk4jQMlpQM-3" style="rounded=1;arcSize=20;strokeWidth=2" value="ChildLock_OFF" vertex="1">
+          <mxGeometry height="40" width="121" x="307" y="159" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-6" parent="oX8yY44hTsGk4jQMlpQM-3" style="rounded=1;arcSize=20;strokeWidth=2" value="ChildLock_ON" vertex="1">
+          <mxGeometry height="40" width="115" x="99" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-7" parent="oX8yY44hTsGk4jQMlpQM-3" style="whiteSpace=wrap;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry x="128" y="533" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-8" parent="oX8yY44hTsGk4jQMlpQM-3" style="whiteSpace=wrap;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry x="156" y="656" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-9" parent="oX8yY44hTsGk4jQMlpQM-3" style="whiteSpace=wrap;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry x="375" y="389" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-10" parent="oX8yY44hTsGk4jQMlpQM-3" style="whiteSpace=wrap;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry x="456" y="533" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-11" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-4" style="curved=1;startArrow=none;;exitX=0.5;exitY=0.96;entryX=0.5;entryY=-0.01;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-5" value="초기화 (이전 상태 로드)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-12" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-5" style="curved=1;startArrow=none;;exitX=0.14;exitY=0.99;entryX=0.46;entryY=-0.01;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-6" value="[UC-1] 운전자 수동 스위치 ON&#xa;[UC-2] 차량 속도 임계값 초과&#xa;[UC-5] 후방 위험 접근 감지">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="136" y="284" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-13" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-6" style="curved=1;startArrow=none;;exitX=0.99;exitY=-0.01;entryX=0.64;entryY=0.99;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-5" value="[UC-1] 운전자 수동 스위치 OFF">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="456" y="284" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-14" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-6" style="curved=1;startArrow=none;endArrow=none;exitX=0.43;exitY=0.99;entryX=NaN;entryY=-Infinity;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-7" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="128" y="471" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-15" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-7" style="curved=1;startArrow=none;endArrow=none;exitX=NaN;exitY=-Infinity;entryX=-Infinity;entryY=-Infinity;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-8" value="[UC-4] 내부 문 개방 시도 (차단 및 경고)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="128" y="594" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-16" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-8" style="curved=1;startArrow=none;;exitX=-Infinity;exitY=-Infinity;entryX=0.71;entryY=0.99;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-6" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="256" y="594" />
+              <mxPoint x="256" y="471" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-17" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-5" style="curved=1;startArrow=none;endArrow=none;exitX=0.45;exitY=0.99;entryX=Infinity;entryY=Infinity;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-9" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="336" y="284" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-18" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-9" style="curved=1;startArrow=none;endArrow=none;exitX=Infinity;exitY=Infinity;entryX=-Infinity;entryY=-Infinity;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-10" value="[UC-4] 내부 문 개방 시도 (정상 개방)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="376" y="471" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-19" edge="1" parent="oX8yY44hTsGk4jQMlpQM-3" source="oX8yY44hTsGk4jQMlpQM-10" style="curved=1;startArrow=none;;exitX=-Infinity;exitY=-Infinity;entryX=0.88;entryY=0.99;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-5" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="608" y="471" />
+              <mxPoint x="608" y="284" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-20" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;startSize=25;container=0;collapsible=0;rounded=1;arcSize=14;dropTarget=0;verticalAlign=top;" value="Emergency_Mode" vertex="1">
+          <mxGeometry height="367" width="228" x="440" y="1077" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-21" parent="oX8yY44hTsGk4jQMlpQM-20" style="ellipse;fillColor=strokeColor;" value="" vertex="1">
+          <mxGeometry height="14" width="14" x="115" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-22" parent="oX8yY44hTsGk4jQMlpQM-20" style="rounded=1;arcSize=20;strokeWidth=2" value="Forced_Unlock" vertex="1">
+          <mxGeometry height="40" width="122" x="61" y="159" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-23" parent="oX8yY44hTsGk4jQMlpQM-20" style="rounded=1;arcSize=20;strokeWidth=2" value="Lock_Disabled" vertex="1">
+          <mxGeometry height="40" width="118" x="63" y="298" as="geometry" />
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-24" edge="1" parent="oX8yY44hTsGk4jQMlpQM-20" source="oX8yY44hTsGk4jQMlpQM-21" style="curved=1;startArrow=none;;exitX=0.5;exitY=0.96;entryX=0.5;entryY=-0.01;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-22" value="비상 해제 명령 전송">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-25" edge="1" parent="oX8yY44hTsGk4jQMlpQM-20" source="oX8yY44hTsGk4jQMlpQM-22" style="curved=1;startArrow=none;;exitX=0.5;exitY=0.99;entryX=0.5;entryY=-0.01;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-23" value="조작 스위치 비활성화 (보호)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-26" edge="1" parent="1" source="oX8yY44hTsGk4jQMlpQM-1" style="curved=1;startArrow=none;;exitX=0.47;exitY=1;entryX=0.5;entryY=0;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-2" value="배터리 연결 / 초기화">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-27" edge="1" parent="1" source="oX8yY44hTsGk4jQMlpQM-2" style="curved=1;startArrow=none;;exitX=0;exitY=0.87;entryX=0.35;entryY=0;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-3" value="IG ON (시동 켜짐) / [UC-6] 뒷좌석 점유 및 출발 권장 알림">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="224" y="209" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-28" edge="1" parent="1" source="oX8yY44hTsGk4jQMlpQM-3" style="curved=1;startArrow=none;;exitX=0.5;exitY=1;entryX=0;entryY=0.15;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-20" value="[UC-3] 충돌 감지 또는 에어백 전개 (최우선 순위 Override)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="334" y="1016" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-29" edge="1" parent="1" source="oX8yY44hTsGk4jQMlpQM-20" style="curved=1;startArrow=none;;exitX=1;exitY=0.15;entryX=1;entryY=0.85;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-2" value="IG OFF (구조 후 시동 꺼짐)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="773" y="1016" />
+              <mxPoint x="773" y="209" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oX8yY44hTsGk4jQMlpQM-30" edge="1" parent="1" source="oX8yY44hTsGk4jQMlpQM-3" style="curved=1;startArrow=none;;exitX=0.72;exitY=0;entryX=0.5;entryY=1;rounded=0;" target="oX8yY44hTsGk4jQMlpQM-2" value="IG OFF (시동 꺼짐) / [UC-7] 차일드 락 상태 요약 알림">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="494" y="209" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
