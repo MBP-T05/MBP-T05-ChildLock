@@ -1,7 +1,7 @@
 @startuml
 title SD-4 (UC-4) 뒷좌석 내부 문 열기 시도 차단 - 예외 반영
 
-actor "뒷좌석 탑승자" as Passenger
+actor "뒷문 손잡이(레버)" as Passenger
 participant "도어 내부 핸들" as Handle
 participant "ChildLock SW" as SW
 participant "Door ECU" as ECU
