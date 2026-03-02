@@ -1,7 +1,7 @@
 @startuml
 title SD-1 (UC-1) 운전자 차일드락 전자식 ON/OFF 제어 - 예외 반영
 
-actor 운전자
+actor 활성화버튼
 participant "차일드락 스위치\n(운전석)" as Switch
 participant "ChildLock SW" as SW
 participant "Door ECU" as ECU
@@ -10,7 +10,7 @@ database Logger
 
 == 기본 정상 흐름 ==
 
-운전자 -> Switch : 차일드락 스위치 누름
+활성화버튼 -> Switch : 차일드락 스위치 누름
 Switch -> SW : SwitchInput(Pressed)
 
 SW -> SW : 입력 유효성 검증
