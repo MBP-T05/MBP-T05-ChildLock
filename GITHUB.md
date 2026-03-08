@@ -1,9 +1,11 @@
-# 1. GitHub 정책 문서
- Issue / PR / Wiki / Action 용
+# 1. GitHub 정책 문서에 추가할 사항
+GitHub를 Issue / PR / Wiki / Action 용
 
-추가 섹션
+추가하면 좋은 섹션
 
 ### 1) Branch Naming Convention
+
+````markdown
 ## Branch Naming Convention
 
 모든 작업은 Issue 기반으로 브랜치를 생성한다.
@@ -17,10 +19,12 @@
 - feature/#12-manual-childlock
 - fix/#18-speed-signal-validation
 - docs/#05-update-development-doc
+````
 
 ### 2) Commit Message Convention
 커밋 메시지 규칙 추가
 
+````markdown
 ## Commit Message Convention
 
 커밋 메시지는 아래 Prefix를 사용한다.
@@ -36,8 +40,11 @@
 - feat: add automatic child lock activation logic
 - fix: block unlock command while vehicle is moving
 - docs: update DEVELOPMENT.md
+````
 
 ### 3) Pull Request Rules
+
+````markdown
 ## Pull Request Rules
 
 - main 브랜치 직접 push는 금지한다.
@@ -45,8 +52,11 @@
 - Pull Request 생성 전 빌드와 테스트를 수행해야 한다.
 - PR 설명에는 변경 목적, 주요 변경 내용, 테스트 결과를 포함한다.
 - 가능하면 1인 이상 리뷰 후 병합한다.
+````
 
 ### 4) Definition of Done
+
+````markdown
 ## Definition of Done
 
 아래 조건을 만족해야 작업 완료로 간주한다.
@@ -58,8 +68,11 @@
 - 정적 분석 결과 치명적인 오류가 없을 것
 - 관련 문서가 업데이트될 것
 - Pull Request 리뷰가 완료될 것
+````
 
 ### 5) CI Policy
+
+````markdown
 ## CI Policy
 
 GitHub Actions는 push 및 pull request 이벤트에서 자동 실행한다.
@@ -71,13 +84,18 @@ GitHub Actions는 push 및 pull request 이벤트에서 자동 실행한다.
 - Coverage Measurement
 
 CI 결과가 실패한 경우 main 브랜치에 병합하지 않는다.
+````
 
 ---
 
-# 2. DEVELOPMENT.md에 추가 사항
+# 2. DEVELOPMENT.md에 추가 가능 사항
 설치후 사용법
 
+---
+
 ### 추가 1) Build Instructions
+
+````markdown
 ## 3. Build Instructions
 
 프로젝트는 CMake 기반으로 빌드한다.
@@ -88,11 +106,16 @@ cd build
 cmake ..
 make
 ```
-빌드 결과 실행 파일 및 테스트 바이너리는 build 디렉토리에 생성된다.
+````
 
+빌드 결과 실행 파일 및 테스트 바이너리는 `build` 디렉토리에 생성된다.
+
+````markdown
 ---
 
-### 추가 2) Unit Test 실행 방법
+## 추가 2) Unit Test 실행 방법
+
+```md
 ## 4. Unit Test Instructions
 
 단위 테스트는 Google Test를 사용하여 수행한다.
@@ -101,15 +124,22 @@ make
 cd build
 ctest --output-on-failure
 ```
+````
+
 또는 테스트 바이너리를 직접 실행할 수 있다.
+
 ```bash
 ./unit_tests
 ```
+
 모든 테스트는 Pull Request 생성 전에 통과해야 한다.
 
+````markdown
 ---
 
-### 추가 3) Coverage 측정 방법
+## 추가 3) Coverage 측정 방법
+
+```md
 ## 5. Coverage Measurement
 
 커버리지는 Gcov / Lcov를 사용하여 측정한다.
@@ -123,12 +153,20 @@ ctest
 lcov --capture --directory . --output-file coverage.info
 genhtml coverage.info --output-directory coverage_report
 ```
-HTML 보고서는 아래 경로에서 확인할 수 있다.
-`build/coverage_report/index.html`
+````
 
+HTML 보고서는 아래 경로에서 확인할 수 있다.
+
+```text
+build/coverage_report/index.html
+```
+
+````markdown
 ---
 
-### 추가 4) Static Analysis 실행 방법
+## 추가 4) Static Analysis 실행 방법
+
+```md
 ## 6. Static Analysis
 
 정적 분석은 CppCheck를 사용한다.
@@ -136,26 +174,38 @@ HTML 보고서는 아래 경로에서 확인할 수 있다.
 ```bash
 cppcheck --enable=all --inconclusive --std=c11 --suppress=missingIncludeSystem src/
 ```
+````
+
 정적 분석 결과를 통해 잠재적 버그, 메모리 오류, 코딩 규칙 위반 여부를 점검한다.
 
+````markdown
 ---
 
-### 추가 5) Code Metrics 실행 방법
+## 추가 5) Code Metrics 실행 방법
+
+```md
 ## 7. Code Metrics
 
-**Cyclomatic Complexity**
+### Cyclomatic Complexity
 ```bash
 lizard src/
 ```
-**Lines of Code**
+````
+
+### Lines of Code
+
 ```bash
 cloc src test
 ```
+
 Lizard는 함수 단위 복잡도를 측정하고, Cloc은 코드 라인 수를 분석한다.
 
+````markdown
 ---
 
-### 추가 6) Project Directory Structure
+## 추가 6) Project Directory Structure
+
+```md
 ## 8. Project Directory Structure
 
 프로젝트는 아래 구조를 따른다.
@@ -173,10 +223,14 @@ project
 ├── README.md
 └── CMakeLists.txt
 ```
+````
 
+````markdown
 ---
 
-### 추가 7) Coding Guidelines
+## 추가 7) Coding Guidelines
+
+```md
 ## 9. Coding Guidelines
 
 - C11 표준을 준수한다.
@@ -185,24 +239,26 @@ project
 - 모든 입력값은 유효성 검사를 수행한다.
 - 함수는 단일 책임 원칙을 따른다.
 - 예외 상황 발생 시 명확한 오류 처리 경로를 구현한다.
+```
+````
 
 ---
 
 # 3. GitHub Actions CI yaml 예시
 아래는 Ubuntu 22.04 환경에서
 
-* build
-* test
-* cppcheck
-* lizard
-* cloc
+- build
+- test
+- cppcheck
+- lizard
+- cloc
 
 까지 기본적으로 도는 예시다.
 
 **전제:**
-* 프로젝트 루트에 CMakeLists.txt 있음
-* 테스트는 ctest로 실행 가능
-* 소스는 src/, 테스트는 test/
+- 프로젝트 루트에 'CMakeLists.txt' 있음
+- 테스트는 `ctest`로 실행 가능
+- 소스는 `src/`, 테스트는 `test/`
 
 **파일 위치:**
 `.github/workflows/ci.yml`
