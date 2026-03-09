@@ -10,10 +10,10 @@
 
 * **OS: Ubuntu 22.04 LTS (Jammy Jellyfish)**
   * **선정 사유:** GitHub Actions의 `ubuntu-22.04` 러너와 완벽하게 일치하여 로컬-서버 간 빌드 재현성을 100% 보장합니다. Windows 환경의 팀원은 WSL2(Windows Subsystem for Linux) 또는 Docker Container를 사용하여 해당 환경을 구축할 것을 강력히 권장합니다.
-* **Compiler: GCC / G++ v11.4.0**
-  * **선정 사유:** Ubuntu 22.04의 기본 검증된 툴체인입니다. 임베디드 타겟 포팅을 고려하여 **C11 및 C++14 표준**을 엄격히 적용하여 빌드합니다.
-* **Python: v3.10.x**
-  * **선정 사유:** 복잡도 분석(Lizard) 및 자동화 스크립트 실행을 위한 환경입니다. 패키지 충돌 방지를 위해 가상환경(venv) 사용을 권장합니다.
+* **Compiler: GCC / G++ GCC 14.3 또는 15.2**
+  * **선정 사유:** 과제/팀 협업용 기본값은 GCC 14.3, 여유가 있으면 GCC 15.2도 후보로 두는 게 좋습니다. GCC 15부터는 C23 관련 기본 동작 변화가 있어, 과제 환경에서는 한 단계 검증된 14.x가 더 무난할 수 있습니다.
+* **Python: 3.13.x**
+  * **선정 사유:** 3.14가 최신 기능 버전이지만, 팀 과제 자동화/스크립트 용도라면 상대적으로 보수적으로 3.13 계열 고정이 좋아 보입니다. 현재도 3.13 유지보수 릴리스가 계속 제공되고 있습니다.
 
 <br>
 
@@ -24,10 +24,10 @@ ISO 26262에서 요구하는 정적 분석(Static Analysis)과 동적 검증(Uni
 | 항목 | 도구 (Tool) | 권장 버전 | 용도 및 설정 가이드 |
 | :--- | :--- | :--- | :--- |
 | **Build System** | **CMake** | v3.22 이상 | 플랫폼 독립적인 빌드 스크립트 생성 (모든 빌드는 CMake 기반으로 통일) |
-| **Unit Test** | **Google Test** | v1.14.0 | C++ 단위 테스트 프레임워크 (CMake의 `FetchContent`로 자동 연동 권장) |
-| **Static Analysis** | **Cppcheck** | v2.10 이상 | 코드 결함 및 코딩 규칙 검사 (**MISRA C:2012 / AUTOSAR C++14 룰셋** 활성화 필수) |
-| **Complexity** | **Lizard** | v1.17.x | 함수별 순환 복잡도(Cyclomatic Complexity) 측정 (제한값 10~15 이하 유지) |
-| **Coverage** | **Gcov / Lcov** | GCC 호환 | 단위 테스트 기반 구문(Statement) 및 분기(Branch) 커버리지 리포트 생성 |
+| **Unit Test** | **Google Test** | v1.17.0 | 단, 이 버전은 C++17 이상 요구이므로 팀 표준도 C++17로 맞추는 것이 자연스럽습니다. |
+| **Static Analysis** | **Cppcheck** | v2.20.0 이상 | 코드 결함 및 코딩 규칙 검사 (**MISRA C:2012 / AUTOSAR C++14 룰셋** 활성화 필수) |
+| **Complexity** | **Lizard** | v1.21.2 | 함수별 순환 복잡도(Cyclomatic Complexity) 측정 (제한값 10~15 이하 유지) |
+| **Coverage** | **Gcov / Lcov** | GCC 14.3과 동일 계열 | 단위 테스트 기반 구문(Statement) 및 분기(Branch) 커버리지 리포트 생성 |
 | **Metrics** | **Cloc** | v1.96 | 물리적 코드 라인 수(LOC) 및 주석 비율 측정 |
 
 <br>
