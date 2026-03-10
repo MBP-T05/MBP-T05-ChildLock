@@ -8,8 +8,9 @@
  *          Achieves high Statement, Branch and MC/DC coverage.
  *
  * @version 1.1.0
- * @date    2026-03-11
- * @author  AI Model: Gemini 3.5 Pro (review & fix)
+ * @date    2026-03-11 01:42 (KST)
+ * @author  AI Model (v1.0.0): Gemini 3.5 Pro — Initial implementation
+ * @author  AI Model (v1.1.0): Claude Sonnet 4.6 (Thinking) — Review & fix
  * @copyright Synetics 20 CopyrightⓒSynetics_
  * @note    v1.1.0: Added Boundary_RiskLevelNone test case for 100% line coverage.
  */
