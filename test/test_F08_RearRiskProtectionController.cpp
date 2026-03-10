@@ -1,0 +1,149 @@
+/**
+ * @file    test_F08_RearRiskProtectionController.cpp
+ * @brief   Unit tests for F-08: Rear Risk Protection Controller Module
+ *
+ * @details Tests the protection logic mapping from risk level to Child Lock
+ *          action and Warning triggers. Requirements:
+ *            - Auto-lock ON when Risk HIGH.
+ *            - Maintain ON when Risk HIGH and already ON.
+ *            - Safe Fallback when sensor faulty.
+ *            - Do nothing when ignition OFF.
+ *            - Handle null pointers safely.
+ *          Achieves high Statement, Branch and MC/DC coverage.
+ *
+ * @version 1.0.0
+ * @date    2026-03-10
+ * @author  MBP-T05 Team
+ */
+
+#include <gtest/gtest.h>
+extern "C" {
+#include "F08_RearRiskProtectionController.h"
+#include "childlock_types.h"
+}
+
+/**
+ * @brief Test fixture for F-08 using Google Test
+ */
+class F08RearRiskProtectionTest : public ::testing::Test {
+protected:
+    RearRiskProtectionInput_t input;
+    RearRiskProtectionOutput_t output;
+
+    void SetUp() override {
+        // Safe, default input condition
+        input.riskHigh = false;
+        input.riskValid = true;
+        input.currentCLState = CL_STATE_OFF;
+        input.ignitionState = IGN_STATE_ON;
+
+        // Reset output
+        output.targetCLState = CL_STATE_OFF;
+        output.warningMsgId = WARNING_MSG_NONE;
+        output.warningSound = false;
+        output.clChanged = false;
+    }
+
+    void TearDown() override {
+        // Clean up common resources
+    }
+};
+
+/* =========================================================================
+ * 1. Positive Risk Threat Scenarios
+ * ========================================================================= */
+
+TEST_F(F08RearRiskProtectionTest, HighRisk_CLWasOff_AutoActivate) {
+    input.riskHigh = true;
+    input.currentCLState = CL_STATE_OFF;
+
+    F08_RearRiskProtectionController_Run(&input, &output);
+
+    EXPECT_EQ(output.targetCLState, CL_STATE_ON);
+    EXPECT_TRUE(output.clChanged);
+    EXPECT_EQ(output.warningMsgId, WARNING_MSG_REAR_RISK_HIGH);
+    EXPECT_TRUE(output.warningSound);
+}
+
+TEST_F(F08RearRiskProtectionTest, HighRisk_CLWasOn_MaintainLock) {
+    input.riskHigh = true;
+    input.currentCLState = CL_STATE_ON;
+
+    F08_RearRiskProtectionController_Run(&input, &output);
+
+    EXPECT_EQ(output.targetCLState, CL_STATE_ON);
+    EXPECT_FALSE(output.clChanged);
+    EXPECT_EQ(output.warningMsgId, WARNING_MSG_CL_ALREADY_ON);
+    EXPECT_TRUE(output.warningSound);
+}
+
+TEST_F(F08RearRiskProtectionTest, NoRisk_CLOff_RemainOff) {
+    input.riskHigh = false;
+    input.currentCLState = CL_STATE_OFF;
+
+    F08_RearRiskProtectionController_Run(&input, &output);
+
+    EXPECT_EQ(output.targetCLState, CL_STATE_OFF);
+    EXPECT_FALSE(output.clChanged);
+    EXPECT_EQ(output.warningMsgId, WARNING_MSG_NONE);
+    EXPECT_FALSE(output.warningSound);
+}
+
+/* =========================================================================
+ * 2. Fault Injection & Safe State Scenarios
+ * ========================================================================= */
+
+TEST_F(F08RearRiskProtectionTest, SensorFault_InvalidRisk_ForceSafeState) {
+    input.riskValid = false;
+    input.currentCLState = CL_STATE_OFF;
+
+    F08_RearRiskProtectionController_Run(&input, &output);
+
+    // Fallback to SAFE_LOCKED -> Forces CL ON
+    EXPECT_EQ(output.targetCLState, CL_STATE_ON);
+    EXPECT_TRUE(output.clChanged);
+    EXPECT_EQ(output.warningMsgId, WARNING_MSG_SENSOR_FAULT);
+    // Beep may be omitted for fault, but let's check code logic explicitly
+    EXPECT_FALSE(output.warningSound); 
+}
+
+TEST_F(F08RearRiskProtectionTest, SensorFault_CLWasAlreadyOn) {
+    input.riskValid = false;
+    input.currentCLState = CL_STATE_ON;
+
+    F08_RearRiskProtectionController_Run(&input, &output);
+
+    // Maintain ON
+    EXPECT_EQ(output.targetCLState, CL_STATE_ON);
+    EXPECT_FALSE(output.clChanged);
+    EXPECT_EQ(output.warningMsgId, WARNING_MSG_SENSOR_FAULT);
+}
+
+/* =========================================================================
+ * 3. Boundary & System State Scenarios
+ * ========================================================================= */
+
+TEST_F(F08RearRiskProtectionTest, SystemOff_IgnitionOff_DoNothing) {
+    input.ignitionState = IGN_STATE_OFF;
+    input.riskHigh = true; // Would normally trigger
+    input.currentCLState = CL_STATE_OFF;
+
+    F08_RearRiskProtectionController_Run(&input, &output);
+
+    EXPECT_EQ(output.targetCLState, CL_STATE_OFF); // output stays neutral
+    EXPECT_FALSE(output.clChanged);
+    EXPECT_EQ(output.warningMsgId, WARNING_MSG_NONE);
+}
+
+TEST_F(F08RearRiskProtectionTest, Robustness_NullPointers) {
+    // Missing input should not crash
+    F08_RearRiskProtectionController_Run(NULL, &output);
+    
+    // Missing output should not crash
+    F08_RearRiskProtectionController_Run(&input, NULL);
+    
+    // Both missing should not crash
+    F08_RearRiskProtectionController_Run(NULL, NULL);
+    
+    SUCCEED();
+}
