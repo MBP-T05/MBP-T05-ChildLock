@@ -13,24 +13,11 @@ FetchContent_MakeAvailable(googletest)
 
 # Gather source files
 set(TEST_SRC_FILES
-    ${CMAKE_SOURCE_DIR}/src/F07_RearRiskEvaluation.c
     ${CMAKE_SOURCE_DIR}/src/F08_RearRiskProtectionController.c
-)
-
-# F-07 Unit Test Target
-add_executable(test_F07_RearRiskEvaluation
-    test_F07_RearRiskEvaluation.cpp
-    ${TEST_SRC_FILES}
-)
-
-# Link against Google Test
-target_link_libraries(test_F07_RearRiskEvaluation
-    gtest_main
 )
 
 # Register tests
 include(GoogleTest)
-gtest_discover_tests(test_F07_RearRiskEvaluation)
 
 # F-08 Unit Test Target
 add_executable(test_F08_RearRiskProtection

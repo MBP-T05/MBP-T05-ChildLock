@@ -24,6 +24,7 @@
 
 #include <stdint.h>  /* uint8_t, uint16_t, uint32_t  */
 #include <stdbool.h> /* bool, true, false              */
+#include <stddef.h>  /* NULL                           */
 
 /* =========================================================================
  * Section 1: Safety-Related Constants (Design Parameters)
