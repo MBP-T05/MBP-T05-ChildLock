@@ -7,10 +7,11 @@
  *          scenarios per Failure_Mode.md.
  *          Achieves high Statement, Branch and MC/DC coverage.
  *
- * @version 1.0.0
+ * @version 1.1.0
  * @date    2026-03-11
- * @author  AI Model: Gemini 3.5 Pro
+ * @author  AI Model: Gemini 3.5 Pro (review & fix)
  * @copyright Synetics 20 CopyrightⓒSynetics_
+ * @note    v1.1.0: Added Boundary_RiskLevelNone test case for 100% line coverage.
  */
 
 #include <gtest/gtest.h>
@@ -219,4 +220,25 @@ TEST_F(F07RearRiskEvaluationTest, Robustness_AutoInit) {
     EXPECT_TRUE(ctx.isInitialized);
     EXPECT_FALSE(ctx.isRiskHighActive); // Auto-init should have cleared this
     EXPECT_FALSE(output.riskHigh);
+}
+
+/* =========================================================================
+ * 5. Risk Level NONE Coverage (v1.1.0 addition)
+ * ========================================================================= */
+
+/**
+ * @brief Verifies RISK_LEVEL_NONE is returned when object is very far away.
+ * @note  Covers the final return branch in classifyRiskLevel() for 100% line coverage.
+ */
+TEST_F(F07RearRiskEvaluationTest, Boundary_RiskLevelNone_VeryFarObject) {
+    /* Distance well beyond 2x threshold (> 6.0m) and zero approach speed */
+    input.distanceM   = REAR_RISK_DIST_THRESHOLD_M * 3.0f; /* 9.0m - far beyond any threshold */
+    input.relSpeedMps = 0.0f;
+
+    F07_RearRiskEvaluation_Run(&ctx, &input, &output);
+
+    EXPECT_TRUE(output.riskValid);
+    EXPECT_FALSE(output.riskHigh);
+    EXPECT_EQ(output.riskLevel, RISK_LEVEL_NONE);
+    EXPECT_EQ(output.faultFlag, FAULT_FLAG_NONE);
 }
