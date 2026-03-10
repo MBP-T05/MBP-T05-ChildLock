@@ -7,11 +7,12 @@
  *          Implements the SAFE_LOCKED fallback policy for sensor faults.
  *
  * @version 1.0.0
- * @date    2026-03-10
- * @author  MBP-T05 Team (AI-assisted: Gemini 3.5 Pro)
+ * @date    2026-03-11
+ * @author  AI Model: Gemini 3.5 Pro
+ * @copyright Synetics 20 CopyrightⓒSynetics_
  *
- * @req_id      REQ-SW-ESA-002
- * @asil        ASIL B
+ * @req_id  REQ-SW-ESA-002
+ * @asil    ASIL B
  * @traceability DD-CL-F08, UC-5
  *
  * @note Function length <= 80 lines. Cyclomatic Complexity <= 10.

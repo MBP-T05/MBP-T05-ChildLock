@@ -12,14 +12,15 @@
  *            - If Sensor Fault: Fallback to SAFE_LOCKED (Maintain CL ON or force ON).
  *
  * @version 1.0.0
- * @date    2026-03-10
- * @author  MBP-T05 Team (AI-assisted: Gemini 3.5 Pro)
+ * @date    2026-03-11
+ * @author  AI Model: Gemini 3.5 Pro
+ * @copyright Synetics 20 CopyrightⓒSynetics_
  *
- * @req_id      REQ-SW-ESA-002
- * @asil        ASIL B
+ * @req_id  REQ-SW-ESA-002
+ * @asil    ASIL B
  * @traceability DD-CL-F08, UC-5
  *
- * @note    Complies with MISRA C:2012. No dynamic memory allocation.
+ * @note    Complies with MISRA C:2012. No use of dynamic memory.
  */
 
 #ifndef F08_REAR_RISK_PROTECTION_CONTROLLER_H
