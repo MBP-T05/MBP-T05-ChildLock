@@ -119,6 +119,10 @@ typedef struct
 /**
  * @brief Initializes the F-05 context with dependency callbacks.
  *
+ * @details Initialization succeeds only when all required callbacks are
+ *          present. This keeps later IGN OFF and restore paths simple and
+ *          avoids partial configuration states in safety-relevant handling.
+ *
  * @param[out] manager Pointer to the runtime context.
  * @param[in] config Pointer to the dependency configuration.
  * @return true if initialization succeeded, otherwise false.
@@ -132,6 +136,11 @@ bool StatePersistenceManager_Init(StatePersistenceManager_t *manager,
 
 /**
  * @brief Persists the current child lock state during IGN OFF handling.
+ *
+ * @details The current state is validated before the configured persistence
+ *          callback is invoked. The result structure always reports the state
+ *          that was requested for storage and whether the storage write
+ *          completed successfully.
  *
  * @param[in] manager Pointer to the initialized runtime context.
  * @param[in] currentClState Current child lock state to persist.
@@ -149,6 +158,11 @@ bool StatePersistenceManager_HandleIgnitionOff(StatePersistenceManager_t *manage
 /**
  * @brief Restores the persisted child lock state during IGN ON handling.
  *
+ * @details A successful restore requires persisted data to be available, to be
+ *          flagged valid by the storage callback, and to map to a supported
+ *          child lock state. Door ECU re-synchronization is requested only
+ *          after those checks succeed.
+ *
  * @param[in] manager Pointer to the initialized runtime context.
  * @param[out] result Pointer receiving the restore result.
  * @return true if the request was processed, otherwise false.
@@ -162,6 +176,10 @@ bool StatePersistenceManager_HandleIgnitionOn(StatePersistenceManager_t *manager
 
 /**
  * @brief Restores the persisted child lock state after reset handling.
+ *
+ * @details Reset recovery uses the same restore validation path as IGN ON so
+ *          that unavailable data, invalid data, and valid restored data are
+ *          handled consistently across both entry points.
  *
  * @param[in] manager Pointer to the initialized runtime context.
  * @param[out] result Pointer receiving the restore result.
