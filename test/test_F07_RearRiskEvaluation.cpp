@@ -86,7 +86,8 @@ TEST_F(F07RearRiskEvaluationTest, Positive_HighRiskWithHysteresis) {
     EXPECT_TRUE(output.riskHigh); // Confirmed!
 
     // 3rd cycle: Threat goes away, but not cleared (Hysteresis OFF delay)
-    input.distanceM = 5.0f; // Safe distance
+    input.distanceM = 5.0f;   // Safe distance (> threshold 3.0)
+    input.relSpeedMps = 0.5f; // Safe speed (< threshold 2.0)
     input.timestampMs = 2000U; // Start clear delay
     F07_RearRiskEvaluation_Run(&ctx, &input, &output);
     EXPECT_TRUE(output.riskHigh); // Still HIGH due to delay
