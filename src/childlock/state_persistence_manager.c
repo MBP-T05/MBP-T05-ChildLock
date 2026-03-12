@@ -1,10 +1,11 @@
 /**
  * @file state_persistence_manager.c
- * @brief Stub implementation for F-05 StatePersistenceManager groundwork.
+ * @brief Minimal C11 implementation for F-05 StatePersistenceManager.
  *
- * @details This file intentionally implements only defensive scaffolding for
- *          the API so tests can be written first. The restore/persist behavior
- *          is not completed yet, which keeps the Google Tests red by design.
+ * @details The implementation persists the current child lock state during
+ *          IGN OFF handling and restores it on IGN ON or reset. Storage and
+ *          Door ECU synchronization are injected via callbacks, which keeps
+ *          the module deterministic and free of dynamic allocation.
  *
  * @traceability SDD-F-05
  * @asil ASIL-TBD
@@ -24,6 +25,7 @@ static void StatePersistenceManager_ClearResult(StatePersistenceManager_Result_t
 {
     if (result != NULL)
     {
+        /* Default to a safe, known child lock state whenever output is reset. */
         result->savedClState = CL_STATE_OFF;
         result->restoredClState = CL_STATE_OFF;
         result->restoreStatus = SPM_RESTORE_STATUS_NOT_REQUESTED;
@@ -32,12 +34,49 @@ static void StatePersistenceManager_ClearResult(StatePersistenceManager_Result_t
     }
 }
 
+/**
+ * @brief Validates an externally supplied child lock state value.
+ *
+ * @param[in] state State value to validate.
+ * @return true when the state matches the defined child lock enum.
+ */
+static bool StatePersistenceManager_IsValidState(ChildLockState_t state)
+{
+    return ((state == CL_STATE_OFF) || (state == CL_STATE_ON));
+}
+
+/**
+ * @brief Validates required callbacks before the context is marked ready.
+ *
+ * @param[in] config Candidate configuration.
+ * @return true when all injected dependencies are available.
+ */
+static bool StatePersistenceManager_HasValidConfig(
+    const StatePersistenceManager_Config_t *config)
+{
+    bool isValid = false;
+
+    if (config != NULL)
+    {
+        isValid = ((config->writePersistedState != NULL)
+            && (config->readPersistedState != NULL)
+            && (config->requestDoorEcuSync != NULL));
+    }
+
+    return isValid;
+}
+
 bool StatePersistenceManager_Init(StatePersistenceManager_t *manager,
                                   const StatePersistenceManager_Config_t *config)
 {
     bool isInitialized = false;
 
-    if ((manager != NULL) && (config != NULL))
+    if (manager != NULL)
+    {
+        manager->isInitialized = false;
+    }
+
+    if ((manager != NULL) && (StatePersistenceManager_HasValidConfig(config) == true))
     {
         manager->config = *config;
         manager->isInitialized = true;
@@ -57,16 +96,20 @@ bool StatePersistenceManager_HandleIgnitionOff(StatePersistenceManager_t *manage
 
     if ((manager != NULL) && (result != NULL) && (manager->isInitialized == true))
     {
-        result->savedClState = currentClState;
-        /* TODO(SDD-F-05): Persist currentClState through writePersistedState. */
-        isHandled = true;
+        if (StatePersistenceManager_IsValidState(currentClState) == true)
+        {
+            result->savedClState = currentClState;
+            result->persistSucceeded =
+                manager->config.writePersistedState(currentClState);
+            isHandled = true;
+        }
     }
 
     return isHandled;
 }
 
 /**
- * @brief Shared stubbed restore path for IGN ON and reset.
+ * @brief Shared restore path for IGN ON and reset.
  *
  * @param[in] manager Pointer to the runtime context.
  * @param[out] result Pointer to the result object.
@@ -76,13 +119,37 @@ static bool StatePersistenceManager_HandleRestore(StatePersistenceManager_t *man
                                                   StatePersistenceManager_Result_t *result)
 {
     bool isHandled = false;
+    ChildLockState_t restoredState = CL_STATE_OFF;
+    bool isPersistedStateValid = false;
+    bool isPersistedStateAvailable = false;
 
     StatePersistenceManager_ClearResult(result);
 
     if ((manager != NULL) && (result != NULL) && (manager->isInitialized == true))
     {
-        /* TODO(SDD-F-05): Read persisted state and request Door ECU sync. */
-        result->restoreStatus = SPM_RESTORE_STATUS_UNAVAILABLE;
+        isPersistedStateAvailable = manager->config.readPersistedState(
+            &restoredState,
+            &isPersistedStateValid);
+
+        if (isPersistedStateAvailable == false)
+        {
+            result->restoreStatus = SPM_RESTORE_STATUS_UNAVAILABLE;
+        }
+        else if ((isPersistedStateValid == false)
+            || (StatePersistenceManager_IsValidState(restoredState) == false))
+        {
+            result->restoreStatus = SPM_RESTORE_STATUS_INVALID;
+        }
+        else
+        {
+            result->restoredClState = restoredState;
+            result->restoreStatus = SPM_RESTORE_STATUS_RESTORED;
+
+            /* Re-sync Door ECU only after a validated restore decision. */
+            manager->config.requestDoorEcuSync(restoredState);
+            result->syncRequested = true;
+        }
+
         isHandled = true;
     }
 
