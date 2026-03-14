@@ -72,6 +72,14 @@ target_include_directories(IgnitionOffStatusAlert
     PUBLIC ${CMAKE_SOURCE_DIR}/include
 )
 
+# F-03: Door ECU Command Handler (C)
+add_library(DoorEcuCommandHandler
+    src/childlock/door_ecu_command_handler.c
+)
+target_include_directories(DoorEcuCommandHandler
+    PUBLIC ${CMAKE_SOURCE_DIR}/include
+)
+
 # Child Lock State Decision (C++)
 add_library(child_lock_state_decision
     src/child_lock_state_decision.cpp
