@@ -64,6 +64,15 @@ target_link_libraries(test_door_ecu_command_handler
 )
 gtest_discover_tests(test_door_ecu_command_handler)
 
+# F-04 Unit Test
+add_executable(test_rear_door_open_block_handler
+    test_rear_door_open_block_handler.cpp
+)
+target_link_libraries(test_rear_door_open_block_handler
+    PRIVATE RearDoorOpenBlockHandler gtest_main
+)
+gtest_discover_tests(test_rear_door_open_block_handler)
+
 # Child Lock State Decision Unit Test (custom runner, no GoogleTest)
 add_executable(child_lock_state_decision_test
     child_lock_state_decision_test.cpp

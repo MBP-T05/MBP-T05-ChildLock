@@ -80,6 +80,14 @@ target_include_directories(DoorEcuCommandHandler
     PUBLIC ${CMAKE_SOURCE_DIR}/include
 )
 
+# F-04: Rear Door Open Block Handler (C)
+add_library(RearDoorOpenBlockHandler
+    src/childlock/rear_door_open_block_handler.c
+)
+target_include_directories(RearDoorOpenBlockHandler
+    PUBLIC ${CMAKE_SOURCE_DIR}/include
+)
+
 # Child Lock State Decision (C++)
 add_library(child_lock_state_decision
     src/child_lock_state_decision.cpp
