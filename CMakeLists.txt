@@ -96,5 +96,22 @@ target_include_directories(child_lock_state_decision
     PUBLIC ${CMAKE_SOURCE_DIR}/include
 )
 
+# F-06: HMI and Event Logger (C)
+add_library(F06_HmiAndEventLogger
+    src/F06_HmiAndEventLogger.c
+)
+target_include_directories(F06_HmiAndEventLogger
+    PUBLIC ${CMAKE_SOURCE_DIR}/include
+)
+
+# F-09: Rear Seat Occupancy Alert (C)
+add_library(F09_RearSeatOccupancyAlert
+    src/F09_RearSeatOccupancyAlert.c
+)
+target_include_directories(F09_RearSeatOccupancyAlert
+    PUBLIC ${CMAKE_SOURCE_DIR}/include
+)
+
 enable_testing()
 add_subdirectory(test)
+

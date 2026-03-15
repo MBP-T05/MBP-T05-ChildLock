@@ -81,3 +81,23 @@ target_link_libraries(child_lock_state_decision_test
     PRIVATE child_lock_state_decision
 )
 add_test(NAME child_lock_state_decision_test COMMAND child_lock_state_decision_test)
+
+# F-06 Unit Test
+add_executable(test_F06_HmiAndEventLogger
+    test_F06_HmiAndEventLogger.cpp
+)
+target_include_directories(test_F06_HmiAndEventLogger PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(test_F06_HmiAndEventLogger
+    PRIVATE F06_HmiAndEventLogger gtest_main
+)
+gtest_discover_tests(test_F06_HmiAndEventLogger)
+
+# F-09 Unit Test
+add_executable(test_F09_RearSeatOccupancyAlert
+    test_F09_RearSeatOccupancyAlert.cpp
+)
+target_include_directories(test_F09_RearSeatOccupancyAlert PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(test_F09_RearSeatOccupancyAlert
+    PRIVATE F09_RearSeatOccupancyAlert gtest_main
+)
+gtest_discover_tests(test_F09_RearSeatOccupancyAlert)
