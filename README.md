@@ -3,7 +3,7 @@
 <div align="center">
   <img src="docs/diagram/usecase/usecase_normal.png" width="600" alt="프로젝트 개요">
   <h3>MOBIUS Bootcamp ISO 26262 SW 시뮬레이션 프로젝트</h3>
-  <p><b>팀: 전차 (Jeoncha)</b></p>
+  <p><b>팀: 전차 </b></p>
 </div>
 
 ---
@@ -14,16 +14,6 @@
 
 - **목표**: 고신뢰성 및 고안전성을 갖춘 임베디드 차일드 락 제어 SW 구현
 - **핵심 가치**: ISO 26262 기능 안전 준수, MISRA C 코딩 표준 적용, TDD 기반의 철저한 검증
-
----
-
-## ✅ 진행 상황 (Project Tasks)
-
-- [x] 프로젝트 분석 및 위키 문서 조사
-- [x] README.md 포트폴리오 구성 계획 수립
-- [x] 영문 버전 README.md 작성 및 배포
-- [x] 한글 현지화 및 문서별 작성 배경 추가
-- [x] 최종 버전 GitHub 반영 예정
 
 ---
 
