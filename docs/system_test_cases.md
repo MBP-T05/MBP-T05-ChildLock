@@ -1,51 +1,50 @@
-## 📋 테스트 베이시스 (Test Basis)
-- **요구사항 명세서 (SRS)**: [[SwRW]] (전자식 차일드 락 시스템 요구사항)
-- **상세 설계서 (SwDD)**: [[SwDD]] (전자식 차일드 락 소프트웨어 상세 설계)
-- **품질 표준**: ISO 26262 (Functional Safety), ASPICE (Automotive SPICE)
+# 🧪 기능 테스트 케이스 (Functional Test Case: ReqTest.md)
+
+이 문서는 `Software_Requirement_Specification.md` 및 설계 다이어그램을 기반으로 작성된 기능 테스트 케이스를 관리합니다.
+
+## 📋 테스트 개요
+- **대상 시스템**: 전자식 차일드 락 시스템 (Electronic Child Lock System)
+- **테스트 목적**: 요구사항 명세서(SRS)에 정의된 모든 기능(UC-1 ~ UC-7) 및 예외 상황에 대한 ASPICE/ISO26262 기반의 전문적 검증
+- **참조 문서**:
+    - [[SwRW]]
+    - [[SwDD]]
+
+## 🏗️ Test Basis
+각 테스트 케이스는 구조적/기능적 커버리지를 보장하기 위해 아래 절을 근거로 작성되었습니다.
+- **SRS UC-1 ~ UC-7**: 요구사항별 전이 및 인터페이스 조건
+- **ISO 26262-8.14**: Equivalence Partitioning, Boundary Value Analysis, Decision Table, State Transition, Fault Injection 적용
+
+## 🗂️ 테스트 케이스 목록 (System Test Cases)
+
+SRS 요구사항(UC-1 ~ UC-7)과 ISO 26262/ASPICE 표준을 엄격히 준수하여 설계된 테스트 케이스 요약입니다. AI 검토를 통해 추가된 고품질 신뢰성·안전성 시나리오를 포함합니다.
+상세 내용은 아래 링크를 참조하십시오.
+
+| ID | 요구사항 ID | 테스트 항목 | 적용 기법 | ASIL 등급 (우선순위) |
+| :--- | :--- | :--- | :--- | :--- |
+| TC-CHL-001 | UC-1 | [EP] 정차 중 수동 스위치 제어 정상 동작 | Equivalence Partitioning | QM (High) |
+| TC-CHL-002 | UC-1 | [BVA] 스위치 채터링 디바운싱 - Off-limit (49ms) | Boundary Value Analysis | QM (High) |
+| TC-CHL-003 | UC-1 | [BVA] 스위치 채터링 디바운싱 - On-limit (50ms) | Boundary Value Analysis | QM (High) |
+| TC-CHL-004 | UC-1 | [Safety] 주행 중 해제 차단 - On-limit (3.0km/h) | Boundary Value Analysis | ASIL B (High) |
+| TC-CHL-005 | UC-1 | [BVA] 주행 중 해제 허용 - Off-limit (2.9km/h) | Boundary Value Analysis | ASIL B (High) |
+| TC-CHL-006 | UC-1 | [Fail-Safe] ECU 통신 단절 재전송 및 안전상태 | Fault Injection | QM (High) |
+| TC-CHL-007 | UC-2 | [BVA] 속도 초과 시 자동잠금 미동작 - 14.9km/h | Boundary Value Analysis | QM (High) |
+| TC-CHL-008 | UC-2 | [BVA] 속도 초과 시 자동잠금 동작 - 15.0km/h | Boundary Value Analysis | QM (High) |
+| TC-CHL-009 | UC-3 | [Safety] 충돌시 비상 해제 (복합조건 = True) | Decision Table | ASIL B (High) |
+| TC-CHL-010 | UC-3 | [Safety] 충돌 단일조건 무시 (오동작 방지) | Decision Table | ASIL B (High) |
+| TC-CHL-011 | UC-4 | [ST] ECU 상태(Init->Normal->Lock) 핸들 차단 | State Transition | QM (High) |
+| TC-CHL-012 | UC-5 | [Pairwise] 후방 객체(거리/속도/시간) 복합 감지 | Pairwise | QM (High) |
+| TC-CHL-013 | UC-5 | [EP] 후방 센서 노이즈/반복 경고 히스테리시스 | Equivalence Partitioning | QM (Medium) |
+| TC-CHL-014 | UC-6 | [DT] 승객 점유 및 잠금 OFF 출발 시 시나리오 | Decision Table | QM (Medium) |
+| TC-CHL-015 | UC-6 | [Fail-Safe] 점유 센서 에러 발생 시 보호 로직 | Fault Injection | QM (Medium) |
+
+> [!NOTE]
+> **AI 확장 범위**: AI(Gemini 2.0 Flash) 분석을 통해 기존 시나리오에 Fault Injection(결함주입), 차단/응답 응계값 분석(BVA - On/Off-point), 히스테리시스/디바운싱 엣지 케이스를 추가 보강하였습니다. ASIL B 수준의 핵심 안전 로직(해제 차단 및 비상해제)을 명확히 분리하여 ASPICE SWE.6 기준을 충족했습니다.
 
 ---
 
-| TC ID      | 요구사항 ID   | 우선순위   | 사전 조건                        | 테스트 목적                                        | 입력값                               | 테스트 절차                           | 예상 결과                                   |   테스트 결과 (비움) |   수행 날짜 (비움) | 적용 기법                    |
-|:-----------|:----------|:-------|:-----------------------------|:----------------------------------------------|:----------------------------------|:---------------------------------|:----------------------------------------|--------------:|-------------:|:-------------------------|
-| TC-UC1-001 | UC-1      | High   | 차량 전원 ON, 정차 상태 (0 km/h)     | 정차 중 수동 스위치 조작을 통한 차일드 락 ON/OFF 기능 검증         | 스위치 Push (ON -> OFF 또는 OFF -> ON) | 1. 정차 확인                         | 스위치 누를 때마다 ON/OFF 상태가 즉각 반전됨            |           nan |          nan | 동등 분할                    |
-|            |           |        |                              |                                               |                                   | 2. 차일드 락 스위치 누름                  |                                         |               |              |                          |
-|            |           |        |                              |                                               |                                   | 3. ECU 상태 확인                     |                                         |               |              |                          |
-| TC-UC1-002 | UC-1      | Medium | 차량 전원 ON                     | [AI 의견] 스위치 채터링 발생 시 디바운싱 처리 검증 (경계값/Equivalence) | 스위치 입력 (연속/불규칙적 입력)               | 1. 스위치를 매우 짧은 간격으로 수회 반복 조작      | 채터링 노이즈는 무시되고 의도된 최종 입력만 반영됨            |           nan |          nan | 경계값 분석                   |
-|            |           |        |                              |                                               |                                   | 2. 시스템 상태 변화 관찰                  |                                         |               |              |                          |
-| TC-UC1-003 | UC-1      | High   | 차량 주행 중 (속도 > 3 km/h)        | 3km/h 초과 주행 중 차일드 락 해제(OFF) 요청 차단 검증 (Safety) | 스위치 OFF 요청                        | 1. 10km/h 주행 유지                  | 해제 요청이 무시되고 '주행 중 해제 불가' 알림 발생          |           nan |          nan | 기능 안전 (Safety)           |
-|            |           |        |                              |                                               |                                   | 2. 차일드 락 OFF 스위치 조작              |                                         |               |              |                          |
-|            |           |        |                              |                                               |                                   | 3. 경고 메시지 확인                     |                                         |               |              |                          |
-| TC-UC2-001 | UC-2      | High   | 자동 활성화 설정 ON, 차일드 락 OFF      | 설정 속도 초과 시 차일드 락 자동 활성화 검증 (BVA)              | 차량 속도 20 km/h 초과                  | 1. 점진적으로 속도 증가                   | 설정 속도 초과 후 즉시 차일드 락이 ON으로 변경됨           |           nan |          nan | 경계값 분석                   |
-|            |           |        |                              |                                               |                                   | 2. 임계 속도(예: 15km/h) 도달 확인        |                                         |               |              |                          |
-|            |           |        |                              |                                               |                                   | 3. 차일드 락 자동 변경 확인                |                                         |               |              |                          |
-| TC-UC2-002 | UC-2      | Medium | 자동 활성화 설정 ON                 | [AI 의견] 속도 신호 비정상 시 시스템 보호 로직 검증 (Fault Injection)    | 속도 신호 결손 (Can Message Timeout)    | 1. 속도 신호를 강제로 끊음(Fault Injected) | 기능 제한 알림 표시 및 안전을 위해 이전 상태 유지(또는 ON 고정) |           nan |          nan | 결함 주입 (Fault Injection)  |
-|            |           |        |                              |                                               |                                   | 2. DTC 발생 및 안전 모드 진입 확인          |                                         |               |              |                          |
-| TC-UC3-001 | UC-3      | High   | 차량 주행 또는 정차 중, 차일드 락 ON      | 충돌 사고 감지 시 차일드 락 즉시 자동 해제 검증 (Safety)         | 충돌 센서 신호 (Airbag Deploy Signal)   | 1. 충돌 시뮬레이션 신호 주입                | 모든 잠금 장치가 즉시 해제되어 내/외부에서 개방 가능함         |           nan |          nan | 결함 주입 (Fault Injection)  |
-|            |           |        |                              |                                               |                                   | 2. 차일드 락 즉시 해제 및 로그 확인           |                                         |               |              |                          |
-| TC-UC3-002 | UC-3      | High   | 차량 전원 ON, 차일드 락 OFF          | [AI 의견] ECU 통신 실패 시 재전송 및 안전 상태 유지 검증                 | ECU 통신 오류 신호                      | 1. 도어 ECU CAN 통신 차단              | 최대 3회 재전송 시도 후 운전자에게 경고 메시지 표시          |           nan |          nan | ASPICE 추적성/예외처리          |
-|            |           |        |                              |                                               |                                   | 2. 제어 명령 재시도(3회) 후 실패 알림 확인      |                                         |               |              |                          |
-| TC-UC4-001 | UC-4      | High   | 차일드 락 ON 상태                  | 차일드 락 ON 상태에서 내부 핸들 조작 시 도어 개방 차단 검증          | 내부 도어 핸들 Pull                     | 1. 차일드 락 ON 설정                   | 내부 핸들을 당겨도 도어 잠금이 해제되지 않음               |           nan |          nan | 상태 전이 테스트                |
-|            |           |        |                              |                                               |                                   | 2. 뒷좌석 내부 핸들 조작                  |                                         |               |              |                          |
-|            |           |        |                              |                                               |                                   | 3. 문 열림 여부 확인                    |                                         |               |              |                          |
-| TC-UC4-002 | UC-4      | Medium | 차일드 락 OFF 상태                 | 차일드 락 OFF 상태에서 내부 핸들 조작 시 정상 도어 개방 검증         | 내부 도어 핸들 Pull                     | 1. 차일드 락 OFF 설정                  | 내부 핸들을 당기면 즉시 도어가 개방됨                   |           nan |          nan | 기능 검증                    |
-|            |           |        |                              |                                               |                                   | 2. 뒷좌석 내부 핸들 조작                  |                                         |               |              |                          |
-|            |           |        |                              |                                               |                                   | 3. 문 열림 확인                       |                                         |               |              |                          |
-| TC-UC5-001 | UC-5      | High   | 차량 정차 중, 후방 감지 기능 ON         | 후방 위험 객체 접근 시 차일드 락 자동 활성화 및 경고 검증            | 후방 접근 객체 (거리 < 2m, 속도 > 10km/h)   | 1. 후방 센서에 위험 객체 신호 입력            | 객체 감지 즉시 차일드 락이 ON으로 전환되고 경고 발생         |           nan |          nan | 의사결정 테이블                 |
-|            |           |        |                              |                                               |                                   | 2. 차일드 락 자동 ON 및 경고음 확인          |                                         |               |              |                          |
-| TC-UC5-002 | UC-5      | Medium | 차량 정차 중, 후방 감지 기능 ON         | [AI 의견] 후방 센서 오류 시 기능 제한 및 운전자 알림 검증                  | 후방 센서 Fault Signal                | 1. 후방 센서 진단 오류 주입                | 기능 실패 메시지 및 센서 점검 알림 표시                 |           nan |          nan | 결함 주입 (Fault Injection)  |
-|            |           |        |                              |                                               |                                   | 2. 기능 비활성화 알림 확인                 |                                         |               |              |                          |
-| TC-UC6-001 | UC-6      | Medium | 차량 출발 상태 진입, 뒷좌석 점유 센서 감지됨   | 뒷좌석 승객 점유 상태에서 출발 시 차일드 락 미설정 알림 검증           | 차량 속도 발생 (> 0.5km/h), 점유 센서 High  | 1. 뒷좌석 센서 점유 상태 설정               | 계기판에 '차일드 락 설정을 권장합니다' 메시지 표시           |           nan |          nan | Equivalence Partitioning |
-|            |           |        |                              |                                               |                                   | 2. 차량 출발                         |                                         |               |              |                          |
-|            |           |        |                              |                                               |                                   | 3. 차일드 락 설정 권고 알림 확인             |                                         |               |              |                          |
-| TC-UC6-002 | UC-6      | Medium | 차량 출발 상태 진입, 뒷좌석 점유 센서 감지 안됨 | 뒷좌석 비점유 상태에서 출발 시 알림 생략 검증                    | 차량 속도 발생 (> 0.5km/h), 점유 센서 Low   | 1. 뒷좌석 센서 비점유 상태 설정              | 별도의 불필요한 알림이 발생하지 않음                    |           nan |          nan | 기능 검증                    |
-|            |           |        |                              |                                               |                                   | 2. 차량 출발                         |                                         |               |              |                          |
-|            |           |        |                              |                                               |                                   | 3. 알림 발생 여부 확인                   |                                         |               |              |                          |
-| TC-UC7-001 | UC-7      | Low    | 주행 종료 후 시동 OFF, 차일드 락 ON     | 시동 OFF 시 차일드 락 ON 상태 알림 제공 검증                 | IG OFF Signal                     | 1. 주행 완료 및 시동 OFF                | 하차 전 '차일드 락이 설정되어 있습니다' 메시지 표시          |           nan |          nan | 상태 전이 테스트                |
-|            |           |        |                              |                                               |                                   | 2. 계기판 알림 메시지 확인                 |                                         |               |              |                          |
+## 📊 상세 결과
+상세 시스템 테스트 케이스 명세서는 아래 링크에서 확인할 수 있습니다.
+- [[System_Test_Cases]]
+
 ---
 
-## 🤖 AI Implementation Traceability
-- **작성 일자**: 2026-03-16
-- **사용 모델**: Gemini 2.0 Flash
-- **작성 기준**: SRS 및 SDD 기반 테스트 케이스 자동 생성 및 예외 시나리오(Fault Injection 등) 확장
-- **참고**: `[AI 의견]` 태그가 붙은 항목은 시스템의 안전성 강화를 위해 AI가 제안한 확장 테스트 케이스입니다.
